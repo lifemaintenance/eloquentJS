@@ -1,0 +1,32 @@
+body {
+    margin-left: 65px;
+    background-color: antiquewhite;
+    color: darkorange;
+    font-size: 2em;
+}
+
+a {
+    text-decoration: none;
+}
+
+ol {
+    margin: 0.3em;
+}
+
+.Project {
+    text-decoration: underline;
+}
+
+.Lists {
+    float: left;
+    width: 600px;
+}
+
+.Headline {
+    margin: 0.3em;
+}
+
+#fieldTesting {
+    margin-left: 1.8em;
+    margin-right: 1.8em;
+}
