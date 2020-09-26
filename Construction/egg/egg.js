@@ -14,9 +14,8 @@ function parseExpression(program) {
 }
 
 function skipSpace(string) {
-	let space = string.search(/\S/)
-	if (space == -1) return ''
-	return string.slice(space) // Возвращаем продолжение программы без пробелов в начале
+	let toCut = /^(#.*|\s)*/.exec(string)
+	return string.slice(toCut[0].length)
 }
 
 function parseApply(expr, program) {
@@ -159,6 +158,8 @@ do(define(pow, fun(base, exp,
    print(pow(2, 10)))
 `);
 
+// --- First Task ---
+
 topScope.array = (...args) => {
 	let resultArray = []
 	for (let arg of args) resultArray.push(arg)
@@ -187,5 +188,52 @@ do(define(sum, fun(array,
 `);
 // → 6
 
+// --- Second Task ---
 
+// The following program illustrates this: function f returns a function that adds its argument to 
+// f’s argument, meaning that it needs access to the local scope inside f to be able to use binding a.
 
+// run(`
+// do(define(f, fun(a, fun(b, +(a, b)))),
+//    print(f(4)(5)))
+// `);
+// // → 9
+// Go back to the definition of the fun form and explain which mechanism causes this to work.
+
+// Область видимости возвращаемой функции создается по прототипу области видимости в которой она определялась
+
+// --- Third Task ---
+
+console.log(parse("# hello\nx"))
+// → {type: "word", name: "x"}
+
+console.log(parse("a # one\n   # two\n()"))
+// → {type: "apply",
+//    operator: {type: "word", name: "a"},
+//    args: []}
+
+// --- Fourth Task ---
+
+specialForms.set = (args, scope) => {
+	if (args.length != 2 && args[0].type != 'word') throw new SyntaxError('Wrong DEFINE input.')
+	let value = evaluate(args[1], scope)
+	// Идем вверх и если находим обьявленную переменную, то обновляем ее значение.
+	for (let prototype = scope; prototype; prototype = Object.getPrototypeOf(prototype)) {
+		prototype = Object.getPrototypeOf(prototype)
+		if (Object.prototype.hasOwnProperty.call(prototype, args[0].name) == true) {
+			prototype[args[0].name] = value
+			return value
+		}
+	}
+	throw new ReferenceError('There is no such variable in the outer scope.')
+}
+
+run(`
+do(define(x, 4),
+   define(setx, fun(val, set(x, val))),
+   setx(50),
+   print(x))
+`);
+// → 50
+run(`set(quux, true)`);
+// → Some kind of ReferenceError
