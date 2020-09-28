@@ -37,3 +37,33 @@ document.getElementById("quote").appendChild(
 		elt("em", "The Open Society and Its Enemies"),
 		", 1950")
 );
+
+function time(name, action) {
+	let start = Date.now()
+	action()
+	console.log(name, 'took', Date.now() - start, 'ms')
+}
+
+
+// time("dumdum", () => {
+// 	let target = document.getElementById("one");
+// 	while (target.offsetWidth < 2000) {
+// 		target.appendChild(document.createTextNode("X"));
+// 	}
+// });
+
+time('clever', () => {
+	let line = document.getElementById('two')
+	line.appendChild(document.createTextNode('X'))
+	let limit = Math.ceil(2000 / (line.offsetWidth)) - 1
+	line.firstChild.nodeValue = 'X'.repeat(limit)
+})
+
+let para = document.getElementById('para')
+console.log('ooooh,', para.style.color)
+para.style.color = 'blue'
+console.log('(' + para.style.color + ')')
+
+let paras = document.querySelectorAll('p')
+console.log(paras[paras.length - 1])
+

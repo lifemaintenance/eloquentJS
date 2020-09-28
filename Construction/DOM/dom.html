@@ -20,6 +20,113 @@
 		just enough to find it immature the moment we turn away
 		from it.
 	</blockquote>
+
+	<p><span id='one'></span></p>
+	<p><span id='two'></span></p>
+
+	This text is displayed <strong>inline</strong>
+	<strong style="display: block;"> as a block</strong>
+	<strong style="display: none;">and not at all</strong>
+
+	<p id="para" style="color:hotpink">Nice Text</p>
+
+	<p style="text-align: center">
+		<img id="floatingHat" src="hat.png" style="position: relative">
+	</p>
+	<script>
+		let cat = document.getElementById('floatingHat');
+		let angle = Math.PI / 2;
+
+		function animate(time, lastTime) {
+			if (lastTime != null) {
+				angle += (time - lastTime) * 0.001;
+			}
+			cat.style.top = (Math.sin(angle) * 20) + "px";
+			cat.style.left = (Math.cos(angle) * 200) + "px";
+			requestAnimationFrame(newTime => animate(newTime, time));
+		}
+		requestAnimationFrame(animate);
+	</script>
+
+	<table>
+		<tr>
+			<th>name</th>
+			<th>height</th>
+			<th>place</th>
+		</tr>
+		<tr>
+			<td>Kilimanjaro</td>
+			<td>5895</td>
+			<td>Tanzania</td>
+		</tr>
+	</table>
+
+	<h1>Mountains</h1>
+
+	<div id="mountains"></div>
+
+	<script>
+		const MOUNTAINS = [{
+				name: "Kilimanjaro",
+				height: 5895,
+				place: "Tanzania"
+			},
+			{
+				name: "Everest",
+				height: 8848,
+				place: "Nepal"
+			},
+			{
+				name: "Mount Fuji",
+				height: 3776,
+				place: "Japan"
+			},
+			{
+				name: "Vaalserberg",
+				height: 323,
+				place: "Netherlands"
+			},
+			{
+				name: "Denali",
+				height: 6168,
+				place: "United States"
+			},
+			{
+				name: "Popocatepetl",
+				height: 5465,
+				place: "Mexico"
+			},
+			{
+				name: "Mont Blanc",
+				height: 4808,
+				place: "Italy/France"
+			}
+		];
+
+		function buildTable(data) {
+			let resultTable = document.createElement('table')
+			let firstRow = document.createElement('tr')
+			for (let columnName of Object.keys(data[0])) {
+				let tableHead = document.createElement('th')
+				tableHead.appendChild(document.createTextNode(columnName))
+				firstRow.appendChild(tableHead)
+			}
+			resultTable.appendChild(firstRow)
+			for (let dataPiece of data) {
+				let mountainRow = document.createElement('tr')
+				for (let property in dataPiece) {
+					let tableData = document.createElement('td')
+					if (typeof dataPiece[property] == 'number') tableData.style.textAlign = 'right'
+					tableData.appendChild(document.createTextNode(dataPiece[property]))
+					mountainRow.appendChild(tableData)
+				}
+				resultTable.appendChild(mountainRow)
+			}
+			return resultTable
+		}
+
+		document.querySelector('#mountains').appendChild(buildTable(MOUNTAINS))
+	</script>
 </body>
 
 </html>
