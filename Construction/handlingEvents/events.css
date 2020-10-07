@@ -1,0 +1,13 @@
+#resizableBar {
+	background: orange;
+	width: 250px;
+	height: 40px;
+}
+
+#progress {
+	width: 0;
+	top: 0;
+	left: 0;
+	border-bottom: 3px solid purple;
+	position: fixed;
+}
