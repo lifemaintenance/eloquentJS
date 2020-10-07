@@ -1,21 +1,19 @@
 let balloon = document.getElementById('balloon')
-let initialSize = '100%'
-balloon.style.fontSize = initialSize
+let size;
+function setSize(newSize) {
+	size = newSize
+	balloon.style.fontSize = size + 'px'
+}
+setSize(50)
 
-let transform = (data) => Number(data.slice(0, -1))
 function changeSize(event) {
 	event.preventDefault()
 	if (event.key == 'ArrowUp') {
-		let currentSize = transform(balloon.style.fontSize)
-		balloon.style.fontSize = `${currentSize + currentSize * 0.1}%`
-		if (transform(balloon.style.fontSize) > transform(initialSize) * 5) {
+		setSize(size * 1.1)
+		if (size > 200) {
 			balloon.textContent = '💥'
 			document.body.removeEventListener('keydown', changeSize)
 		}
-	}
-	else if (event.key == 'ArrowDown') {
-		let currentSize = transform(balloon.style.fontSize)
-		balloon.style.fontSize = `${currentSize - currentSize * 0.1}%`
-	}
+	} else if (event.key == 'ArrowDown') setSize(size / 1.1)
 }
 document.body.addEventListener('keydown', changeSize)
